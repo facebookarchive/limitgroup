@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ParsePlatform/go.limitgroup"
+	"github.com/facebookgo/limitgroup"
 )
 
 func TestLimitNotHit(t *testing.T) {
