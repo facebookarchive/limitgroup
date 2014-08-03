@@ -1,4 +1,4 @@
-go.limitgroup [![Build Status](https://secure.travis-ci.org/ParsePlatform/go.limitgroup.png)](http://travis-ci.org/ParsePlatform/go.limitgroup)
+go.limitgroup [![Build Status](https://secure.travis-ci.org/facebookgo/go.limitgroup.png)](https://travis-ci.org/facebookgo/go.limitgroup)
 =============
 
-Documentation: http://godoc.org/github.com/ParsePlatform/go.limitgroup
+Documentation: https://godoc.org/github.com/facebookgo/go.limitgroup
