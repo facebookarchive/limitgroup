@@ -22,9 +22,6 @@ func NewLimitGroup(limit uint) *LimitGroup {
 		panic("zero is not a valid limit")
 	}
 	slots := make(chan struct{}, limit)
-	for i := uint(0); i < limit; i++ {
-		slots <- sentinel
-	}
 	return &LimitGroup{slots: slots}
 }
 
@@ -43,12 +40,12 @@ func (l *LimitGroup) Add(delta int) {
 	if delta > 0 {
 		l.WaitGroup.Add(delta)
 		for i := 0; i < delta; i++ {
-			<-l.slots
+			l.slots <- sentinel
 		}
 	} else {
 		for i := 0; i > delta; i-- {
 			select {
-			case l.slots <- sentinel:
+			case <-l.slots:
 			default:
 				panic("trying to return more slots than acquired")
 			}
@@ -60,7 +57,7 @@ func (l *LimitGroup) Add(delta int) {
 // Done decrements the counter.
 func (l *LimitGroup) Done() {
 	select {
-	case l.slots <- sentinel:
+	case <-l.slots:
 	default:
 		panic("trying to return more slots than acquired")
 	}
