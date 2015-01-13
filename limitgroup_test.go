@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/facebookgo/ensure"
 	"github.com/facebookgo/limitgroup"
 )
 
@@ -48,30 +49,23 @@ func TestNegativeAdd(t *testing.T) {
 	<-fin
 }
 
-func expectPanic(t *testing.T, v interface{}) {
-	r := recover()
-	if r != v {
-		t.Fatalf("expected panic %v got %v", v, r)
-	}
-}
-
 func TestZeroLimit(t *testing.T) {
-	defer expectPanic(t, "zero is not a valid limit")
+	defer ensure.PanicDeepEqual(t, "zero is not a valid limit")
 	limitgroup.NewLimitGroup(0)
 }
 
 func TestDoneMoreThanPossible(t *testing.T) {
-	defer expectPanic(t, "trying to return more slots than acquired")
+	defer ensure.PanicDeepEqual(t, "trying to return more slots than acquired")
 	limitgroup.NewLimitGroup(1).Done()
 }
 
 func TestAddNegativeMoreThanExpected(t *testing.T) {
-	defer expectPanic(t, "trying to return more slots than acquired")
+	defer ensure.PanicDeepEqual(t, "trying to return more slots than acquired")
 	limitgroup.NewLimitGroup(1).Add(-1)
 }
 
 func TestAddMoreThanLimit(t *testing.T) {
-	defer expectPanic(t, "delta greater than limit")
+	defer ensure.PanicDeepEqual(t, "delta greater than limit")
 	limitgroup.NewLimitGroup(1).Add(2)
 }
 
