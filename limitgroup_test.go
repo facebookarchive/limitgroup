@@ -33,7 +33,7 @@ func TestLimitHit(t *testing.T) {
 	select {
 	case <-fin:
 		t.Fatal("should not get here")
-	case <-time.After(time.Second):
+	case <-time.After(10 * time.Millisecond):
 	}
 }
 
